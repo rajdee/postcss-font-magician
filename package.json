@@ -27,10 +27,8 @@
   },
   "homepage": "https://github.com/jonathantneal/postcss-font-magician",
   "dependencies": {
-    "bootstrap-fonts-complete": "^1.0.0",
-    "directory-fonts-complete": "^1.0.0",
-    "google-fonts-complete": "^1.0.0",
-    "postcss": "^5.0.11"
+    "es6-promise": "^2.3.0",
+    "promise-any-ext": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^3.0.0",

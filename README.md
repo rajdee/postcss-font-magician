@@ -120,89 +120,15 @@ npm install postcss-font-magician --save-dev
 
 ## Options
 
-#### hosted
+#### sources
 
-Have a directory of self-hosted fonts?
-
-```js
-require('postcss-font-magician')({
-   hosted: '../fonts'
-});
-```
-
-The directory will be scanned for font files, which will be read and automatically added if they are used in the document.
-
-#### aliases
-
-Prefer another name for particular fonts?
+A list of adapters to use as sources when retrieving web fonts
 
 ```js
 require('postcss-font-magician')({
-   aliases: {
-      'sans-serif': 'Source Sans Pro'
-   }
-});
-```
-
-The `@font-face` rule will be updated so that your alias key is the new name of the font family.
-
-#### async
-
-Need to load the fonts asynchronously?
-
-```js
-require('postcss-font-magician')({
-   async: 'path/to/your-fonts-async-loader.js'
-});
-```
-
-Any `@font-face` rules are moved out of CSS and into a JavaScript file may be added to a page separately. It will automatically load the fonts before using them.
-
-#### formats
-
-Want to control which font formats are used?
-
-```js
-require('postcss-font-magician')({
-   formats: 'woff2 woff'
-});
-```
-
-By default, `local`, `woff2`, `woff`, and `eot` are enabled.
-Supported formats include `local`, `woff2`, `woff`, `ttf`, `eot`, `svg`, and `otf`.
-
-#### foundries
-
-Want to enable specific foundries?
-
-```js
-require('postcss-font-magician')({
-   foundries: 'bootstrap google'
-});
-```
-
-By default, all foundries are enabled.
-Supported foundries include `custom`, `hosted`, `bootstrap`, and `google`.
-
-#### custom
-
-Need something very specific? I can do that, too.
-
-```js
-require('postcss-font-magician')({
-   custom: {
-      'My Special Font': {
-         variants: {
-            400: {
-               normal: {
-                  url: {
-                     woff2: 'path/to/my-special-font.woff2'
-                  }
-               }
-            }
-         }
-      }
-   }
+   sources: [
+      require('directory-fonts-complete')()
+   ]
 });
 ```
 
