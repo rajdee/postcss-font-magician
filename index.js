@@ -49,13 +49,14 @@ function getConfiguredOptions(opts) {
 }
 
 function getFont(family, opts) {
-	var index = -1;
-	var foundryName;
+	var index = -1,
+			foundryName,
+			foundry;
 
 	family = opts.aliases[family] || family;
 
 	while (foundryName = opts.foundries[++index]) {
-		var foundry = foundries[foundryName];
+				foundry = foundries[foundryName];
 
 		if (foundry && family in foundry) {
 			return foundry[family];
