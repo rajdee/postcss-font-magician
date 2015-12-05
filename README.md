@@ -120,6 +120,23 @@ npm install postcss-font-magician --save-dev
 
 ## Options
 
+#### varaints
+
+Don't want to download all the variants font weights, styles and formats?
+
+```js
+require('postcss-font-magician')({
+   variants: {
+                'Open Sans': {
+                    normal: ["300 400 500", "woff"],
+                    italic: ["400", "woff2"]
+                }
+            }
+});
+```
+
+The directory will be scanned for font files, which will be read and automatically added if they are used in the document.
+
 #### hosted
 
 Have a directory of self-hosted fonts?
@@ -130,7 +147,7 @@ require('postcss-font-magician')({
 });
 ```
 
-The directory will be scanned for font files, which will be read and automatically added if they are used in the document.
+The plugin will download the font only selected weights, styles and formats.
 
 #### aliases
 
