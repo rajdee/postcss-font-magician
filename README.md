@@ -135,7 +135,7 @@ require('postcss-font-magician')({
 });
 ```
 
-The directory will be scanned for font files, which will be read and automatically added if they are used in the document.
+The plugin will download the font only selected weights, styles and formats.
 
 #### hosted
 
@@ -147,7 +147,7 @@ require('postcss-font-magician')({
 });
 ```
 
-The plugin will download the font only selected weights, styles and formats.
+The directory will be scanned for font files, which will be read and automatically added if they are used in the document.
 
 #### aliases
 
