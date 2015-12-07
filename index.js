@@ -87,7 +87,7 @@ function getSafelyQuoted(string) {
     return string.match(/\s/) ? '"' + string + '"' : string;
 }
 
-function convertVariants(variants) {
+function convertVariants(variants, opts) {
     var family,
         weights,
         style,
@@ -98,7 +98,7 @@ function convertVariants(variants) {
         for (style in variants[family]) {
             weights = variants[family][style];
             if (Array.isArray(weights)) {
-                formats = weights[1] ? weights[1].split(' ') : [];
+                formats = weights[1] ? weights[1].split(' ') : opts.formats;
                 result[family][style] = {
                     weights: weights[0].split(' '),
                     formats: formats
@@ -231,7 +231,7 @@ function getFontFaceRules(family, opts) {
 function plugin(opts) {
     opts = getConfiguredOptions(opts || {});
     foundries.custom = opts.custom;
-    opts.variants = convertVariants(opts.variants);
+    opts.variants = convertVariants(opts.variants, opts);
 
     return function (css) {
         var fontFamiliesDeclared = {};
