@@ -137,7 +137,7 @@ require('postcss-font-magician')({
 
 The plugin will download the font only selected weights, styles and formats.
 
-Need to support `unicode-range`? You can use second element in an option array.
+Need to support `unicode-range`? You can use it as a second element in an option array.
 
 ```js
 require('postcss-font-magician')({
@@ -145,6 +145,21 @@ require('postcss-font-magician')({
                 'Open Sans': {
                     '300': ['woff, eot, woff2', 'U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF'],
                     '400 italic': ['woff2']
+                }
+            }
+});
+```
+
+
+Need to support `font-stretch`? You can use it as a 2nd or 3rd params in an option key.
+
+```js
+require('postcss-font-magician')({
+   variants: {
+                'Open Sans': {
+                    '300 ultra-condenced': ['woff, eot, woff2'],
+                    '400 italic': ['woff2'],
+                    '400 italic semi-expanded': ['woff2']
                 }
             }
 });

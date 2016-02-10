@@ -1,3 +1,8 @@
+## 1.5.2 (2016-02-10)
+
+Changed: `variants` method
+Added: support of 'font-stretch'
+
 ## 1.5.1 (2016-02-10)
 
 Changed: `variants` method

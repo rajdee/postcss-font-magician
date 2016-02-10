@@ -112,32 +112,24 @@ function getFirstFontFamily(decl) {
 }
 
 function getFontFaceRules(family, opts) {
-    var weight,
-        style,
-        formats,
-        key,
-        temp,
-        ranges,
-        googleWeights,
+    var weight, style, formats, ranges, stretch, googleWeights, key, temp,
         fontFaceRules = [],
         font = getFont(family, opts),
         variants = opts.variants,
-        generateFont = function generateFont(style, urls, weight, localFormats, ranges) {
+        generateFont = function generateFont(options) {
             var sources = [],
-                formats = localFormats || opts.formats;
+                formats = options.formats || opts.formats;
 
             formats.forEach(function (format) {
-                var url,
-                    formatHint,
-                    source;
+                var url, formatHint, source;
 
-                if (format === 'local' && urls.local) {
-                    urls.local.forEach(function (local) {
+                if (format === 'local' && options.urls.local) {
+                    options.urls.local.forEach(function (local) {
                         var localSource = getMethod('local', getSafelyQuoted(local));
                         sources.push(localSource);
                     });
-                } else if (urls.url) {
-                    url = urls.url[format];
+                } else if (options.urls.url) {
+                    url = options.urls.url[format];
                     if (!url) return;
 
                     url = url.replace(/^https?:/, '');
@@ -164,12 +156,12 @@ function getFontFaceRules(family, opts) {
 
                 fontFaceRule.append(postcss.decl({
                     prop: 'font-style',
-                    value: style
+                    value: options.style
                 }));
 
                 fontFaceRule.append(postcss.decl({
                     prop: 'font-weight',
-                    value: weight
+                    value: options.weight
                 }));
 
                 fontFaceRule.append(postcss.decl({
@@ -177,10 +169,17 @@ function getFontFaceRules(family, opts) {
                     value: sources.join(',')
                 }));
 
-                if (ranges) {
+                if (options.ranges) {
                     fontFaceRule.append(postcss.decl({
                         prop: 'unicode-ranges',
-                        value: ranges
+                        value: options.ranges
+                    }));
+                }
+
+                if (options.stretch) {
+                    fontFaceRule.append(postcss.decl({
+                        prop: 'font-stretch',
+                        value: options.stretch
                     }));
                 }
 
@@ -196,14 +195,26 @@ function getFontFaceRules(family, opts) {
         for (key in variants[family]) {
             temp = key.split(' ');
             weight = temp[0];
-            style = temp[1] || 'normal';
+
+            if (!temp[1] || (temp[1] !== 'normal' && temp[1] !== 'italic')) {
+              temp.splice(1, 0, 'normal');
+            }
+            style = temp[1];
+            stretch = temp[2];
             formats = variants[family][key][0] ? variants[family][key][0].replace(/\W+/g, " ").split(' ') : opts.formats;
             ranges = variants[family][key][1] ? variants[family][key][1].toUpperCase() : null;
 
             googleWeights = font.variants[style];
 
             if (googleWeights && googleWeights[weight]) {
-                generateFont(style, googleWeights[weight], weight, formats, ranges);
+                generateFont({
+                  style: style,
+                  urls: googleWeights[weight],
+                  weight: weight,
+                  formats: formats,
+                  ranges: ranges,
+                  stretch: stretch
+                });
             }
         }
     } else {
@@ -211,7 +222,14 @@ function getFontFaceRules(family, opts) {
             var weights = font.variants[style];
             Object.keys(weights).forEach(function (weight) {
                 var urls = weights[weight];
-                generateFont(style, urls, weight);
+                generateFont({
+                  style: style,
+                  urls: urls,
+                  weight: weight,
+                  formats: null,
+                  ranges: null,
+                  stretch: null
+                });
             });
         });
     }
