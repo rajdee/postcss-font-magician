@@ -87,28 +87,6 @@ function getSafelyQuoted(string) {
     return string.match(/\s/) ? '"' + string + '"' : string;
 }
 
-function convertVariants(variants, opts) {
-    var family,
-        weights,
-        style,
-        formats,
-        result = {};
-    for (family in variants) {
-        result[family] = {};
-        for (style in variants[family]) {
-            weights = variants[family][style];
-            if (Array.isArray(weights)) {
-                formats = weights[1] ? weights[1].split(' ') : opts.formats;
-                result[family][style] = {
-                    weights: weights[0].split(' '),
-                    formats: formats
-                };
-            }
-        }
-    }
-    return result;
-}
-
 /* CSS Methods
    ========================================================================== */
 
@@ -134,16 +112,19 @@ function getFirstFontFamily(decl) {
 }
 
 function getFontFaceRules(family, opts) {
-    var fontFaceRules = [],
+    var weight,
+        style,
+        formats,
+        key,
+        temp,
+        ranges,
+        googleWeights,
+        fontFaceRules = [],
         font = getFont(family, opts),
         variants = opts.variants,
-        generateFont = function generateFont(style, urls, weight) {
+        generateFont = function generateFont(style, urls, weight, localFormats, ranges) {
             var sources = [],
-                formats = opts.formats;
-
-            if (opts.variants[family] && opts.variants[family][style].formats) {
-              formats = opts.variants[family][style].formats;
-            }
+                formats = localFormats || opts.formats;
 
             formats.forEach(function (format) {
                 var url,
@@ -196,6 +177,13 @@ function getFontFaceRules(family, opts) {
                     value: sources.join(',')
                 }));
 
+                if (ranges) {
+                    fontFaceRule.append(postcss.decl({
+                        prop: 'unicode-ranges',
+                        value: ranges
+                    }));
+                }
+
                 fontFaceRules.push(fontFaceRule);
             }
         };
@@ -205,17 +193,19 @@ function getFontFaceRules(family, opts) {
     }
 
     if (variants && variants[family]) {
-        Object.keys(variants[family]).forEach(function (style) {
-            var googleWeights = font.variants[style],
-                variantsWeights = variants[family][style].weights;
-            if (googleWeights && Array.isArray(variantsWeights)) {
-                variantsWeights.forEach(function (weight) {
-                    if (googleWeights[weight]) {
-                        generateFont(style, googleWeights[weight], weight);
-                    }
-                });
+        for (key in variants[family]) {
+            temp = key.split(' ');
+            weight = temp[0];
+            style = temp[1] || 'normal';
+            formats = variants[family][key][0] ? variants[family][key][0].replace(/\W+/g, " ").split(' ') : opts.formats;
+            ranges = variants[family][key][1] ? variants[family][key][1].toUpperCase() : null;
+
+            googleWeights = font.variants[style];
+
+            if (googleWeights && googleWeights[weight]) {
+                generateFont(style, googleWeights[weight], weight, formats, ranges);
             }
-        });
+        }
     } else {
         Object.keys(font.variants).forEach(function (style) {
             var weights = font.variants[style];
@@ -231,7 +221,6 @@ function getFontFaceRules(family, opts) {
 function plugin(opts) {
     opts = getConfiguredOptions(opts || {});
     foundries.custom = opts.custom;
-    opts.variants = convertVariants(opts.variants, opts);
 
     return function (css) {
         var fontFamiliesDeclared = {};

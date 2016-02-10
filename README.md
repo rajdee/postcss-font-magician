@@ -122,20 +122,34 @@ npm install postcss-font-magician --save-dev
 
 #### varaints
 
-Don't want to download all the variants font weights, styles and formats?
+Want to download only specific font weights, styles and formats?
 
 ```js
 require('postcss-font-magician')({
    variants: {
                 'Open Sans': {
-                    normal: ["300 400 500", "woff"],
-                    italic: ["400", "woff2"]
+                    '300': ['woff, eot, woff2'],
+                    '400 italic': ['woff2']
                 }
             }
 });
 ```
 
 The plugin will download the font only selected weights, styles and formats.
+
+Need to support `unicode-range`? You can use second element in an option array.
+
+```js
+require('postcss-font-magician')({
+   variants: {
+                'Open Sans': {
+                    '300': ['woff, eot, woff2', 'U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF'],
+                    '400 italic': ['woff2']
+                }
+            }
+});
+```
+
 
 #### hosted
 

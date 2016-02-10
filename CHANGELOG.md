@@ -1,7 +1,11 @@
+## 1.5.1 (2016-02-10)
+
+Changed: `variants` method
+Added: support of 'unicode-range'
+
 ## 1.5.0 (2015-12-07)
 
 Added: `variants` method
-Added: `universal` method
 
 ## 1.4.0 (2015-12-07)
 

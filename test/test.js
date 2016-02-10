@@ -62,13 +62,46 @@ describe('postcss-font-magician', function () {
     test(
       'a{font-family:"Open Sans"}b{}',
 
-      '@font-face{font-family:"Open Sans";font-style:normal;font-weight:300;src:url(//fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format("woff")}' +
+      '@font-face{font-family:"Open Sans";font-style:normal;font-weight:300;src:url(//fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format("woff")}@font-face{font-family:"Open Sans";font-style:italic;font-weight:400;src:url(//fonts.gstatic.com/s/opensans/v13/xjAJXh38I15wypJXxuGMBmfQcKutQXcIrRfyR5jdjY8.eot?#) format("eot"),url(//fonts.gstatic.com/s/opensans/v13/xjAJXh38I15wypJXxuGMBobN6UDyHWBl620a-IRfuBk.woff) format("woff")}a{font-family:"Open Sans"}b{}',
+      {
+        variants: {
+                'Open Sans': {
+                    '300': ['woff'],
+                    '400 italic': ["eot woff"]
+                }
+            }
+      },
+      done
+    );
+  });
+
+  it('supports custom google fonts (default formats)', function (done) {
+    test(
       'a{font-family:"Open Sans"}b{}',
+
+      '@font-face{font-family:"Open Sans";font-style:normal;font-weight:300;src:local("Open Sans Light"),local(OpenSans-Light),url(//fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTXZ2MAKAc2x4R1uOSeegc5U.eot?#) format("eot"),url(//fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTegdm0LZdjqr5-oayXSOefg.woff2) format("woff2"),url(//fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format("woff")}a{font-family:"Open Sans"}b{}',
 
       {
         variants: {
                 'Open Sans': {
-                    normal: ['300', 'woff']
+                    '300': []
+                }
+            }
+      },
+      done
+    );
+  });
+
+  it('supports custom unicode-range', function (done) {
+    test(
+      'a{font-family:"Open Sans"}b{}',
+
+      '@font-face{font-family:"Open Sans";font-style:normal;font-weight:300;src:url(//fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format("woff");unicode-ranges:U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF}@font-face{font-family:"Open Sans";font-style:italic;font-weight:400;src:url(//fonts.gstatic.com/s/opensans/v13/xjAJXh38I15wypJXxuGMBmfQcKutQXcIrRfyR5jdjY8.eot?#) format("eot"),url(//fonts.gstatic.com/s/opensans/v13/xjAJXh38I15wypJXxuGMBobN6UDyHWBl620a-IRfuBk.woff) format("woff")}a{font-family:"Open Sans"}b{}',
+      {
+        variants: {
+                'Open Sans': {
+                    '300': ['woff', 'U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF'],
+                    '400 italic': ["eot woff"]
                 }
             }
       },
