@@ -137,6 +137,8 @@ require('postcss-font-magician')({
 
 The plugin will download the font only selected weights, styles and formats.
 
+##### unicode-range
+
 Need to support `unicode-range`? You can use it as a second element in an option array.
 
 ```js
@@ -150,6 +152,7 @@ require('postcss-font-magician')({
 });
 ```
 
+##### font-stretch
 
 Need to support `font-stretch`? You can use it as a 2nd or 3rd params in an option key.
 
