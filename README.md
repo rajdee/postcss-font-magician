@@ -120,7 +120,7 @@ npm install postcss-font-magician --save-dev
 
 ## Options
 
-#### varaints
+### varaints
 
 Want to download only specific font weights, styles and formats?
 
@@ -137,9 +137,9 @@ require('postcss-font-magician')({
 
 The plugin will download the font only selected weights, styles and formats.
 
-#### unicode-range
+### unicode-range
 
-Need to support `unicode-range`? You can use it as a second element in an option array.
+Need to support [unicode-range](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/unicode-range)? You can use it as a second element in an option array.
 
 ```js
 require('postcss-font-magician')({
@@ -152,9 +152,9 @@ require('postcss-font-magician')({
 });
 ```
 
-#### font-stretch
+### font-stretch
 
-Need to support `font-stretch`? You can use it as a 2nd or 3rd params in an option key.
+Need to support [font-stretch](https://developer.mozilla.org/en-US/docs/Web/CSS/font-stretch)? You can use it as a 2nd or 3rd params in an option key.
 
 ```js
 require('postcss-font-magician')({
@@ -169,7 +169,7 @@ require('postcss-font-magician')({
 ```
 
 
-#### hosted
+### hosted
 
 Have a directory of self-hosted fonts?
 
@@ -181,7 +181,7 @@ require('postcss-font-magician')({
 
 The directory will be scanned for font files, which will be read and automatically added if they are used in the document.
 
-#### aliases
+### aliases
 
 Prefer another name for particular fonts?
 
@@ -195,7 +195,7 @@ require('postcss-font-magician')({
 
 The `@font-face` rule will be updated so that your alias key is the new name of the font family.
 
-#### async
+### async
 
 Need to load the fonts asynchronously?
 
@@ -207,7 +207,7 @@ require('postcss-font-magician')({
 
 Any `@font-face` rules are moved out of CSS and into a JavaScript file may be added to a page separately. It will automatically load the fonts before using them.
 
-#### formats
+### formats
 
 Want to control which font formats are used?
 
@@ -220,7 +220,7 @@ require('postcss-font-magician')({
 By default, `local`, `woff2`, `woff`, and `eot` are enabled.
 Supported formats include `local`, `woff2`, `woff`, `ttf`, `eot`, `svg`, and `otf`.
 
-#### foundries
+### foundries
 
 Want to enable specific foundries?
 
@@ -233,7 +233,7 @@ require('postcss-font-magician')({
 By default, all foundries are enabled.
 Supported foundries include `custom`, `hosted`, `bootstrap`, and `google`.
 
-#### custom
+### custom
 
 Need something very specific? I can do that, too.
 
