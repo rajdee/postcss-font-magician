@@ -1,3 +1,7 @@
+## 1.5.3 (2016-07-24)
+
+Added: support of 'font-display'
+
 ## 1.5.2 (2016-02-10)
 
 Changed: `variants` method

@@ -120,7 +120,7 @@ npm install postcss-font-magician --save-dev
 
 ## Options
 
-### varaints
+### variants
 
 Want to download only specific font weights, styles and formats?
 
@@ -168,6 +168,15 @@ require('postcss-font-magician')({
 });
 ```
 
+### font-display
+
+Need to control how custom fonts display when they loading? You can use [font-display](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display) css rule. 
+
+```js
+require('postcss-font-magician')({
+   display: 'swap'
+});
+```
 
 ### hosted
 
